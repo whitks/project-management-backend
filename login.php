@@ -30,6 +30,7 @@ if (isset($details["googleLogin"]) && $details["googleLogin"] == true && isset($
         }
         $_SESSION["email"] = $user['email'];
         $_SESSION["id"] = $data['id'];
+        $_SESSION["section"] = $data['section'];
         echo json_encode(['status' => 'success']);
         exit;
     }
@@ -62,6 +63,7 @@ else{
         }
         $_SESSION["email"] = $email;
         $_SESSION["id"] = $data['id'];
+        $_SESSION["section"] = $data['section'];
         echo json_encode(['status' => "success"]);
         exit;
     }
