@@ -8,19 +8,15 @@ header('Content-Type: application/json');
 session_start();
 $str = file_get_contents('php://input');
 $details = json_decode($str, true);
-
+if (!$details || !isset($details['team'])){
+    return json_encode(['status' => 'Some Error occured']);
+}
 if (!isset($_SESSION['email'])){
     echo json_encode(['status' => 'Authorization failed']);
     exit;
 }
-$section = htmlspecialchars($_SESSION['section']);
-$stmt = $conn->prepare("SELECT firstname, lastname, email, shift FROM USERS WHERE section = ? AND team_id IS NULL");
-$stmt->bind_param("s", $section);
+$stmt = $conn->prepare("INSERT INTO `teams`(`id`, `team_lead`, `team_member_1`, `team_member_2`, `team_member_3`, `project_id`, `mentor_id`, `pending_approvals_id`) VALUES ('[value-1]','[value-2]','[value-3]','[value-4]','[value-5]','[value-6]','[value-7]','[value-8]')");
+$stmt->bind_param("s", $_SESSION['section']);
 $stmt->execute();
 $result = $stmt->get_result();
 $rows = $result->fetch_all(MYSQLI_ASSOC);
-if(!$result || !$rows){
-    echo json_encode(['status'=> "Failed, Some error occured."]);
-}
-echo json_encode(['status'=> "success", "rows" => $rows]);
-exit;
